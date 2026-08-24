@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>My Epic Website</title>
+	<style>
+		:root {
+			font-family: system-ui, sans-serif;
+			color: #f8fafc;
+			background: #111827;
+		}
+
+		body {
+			margin: 0;
+		}
+
+		#app {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			justify-content: center;
+			height: 100vh;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		canvas {
+			background: #0f172a;
+			border: 2px solid #38bdf8;
+			border-radius: 8px;
+			max-width: calc(100vw - 32px);
+		}
+
+		.popup-backdrop {
+			align-items: center;
+			background: rgb(15 23 42 / 70%);
+			display: flex;
+			inset: 0;
+			justify-content: center;
+			position: fixed;
+		}
+
+		.popup-backdrop[hidden] {
+			display: none;
+		}
+
+		.popup {
+			background: #f8fafc;
+			border: 3px solid #38bdf8;
+			border-radius: 4px;
+			box-sizing: border-box;
+			box-shadow: 0 12px 36px rgb(0 0 0 / 40%);
+			color: #0f172a;
+			aspect-ratio: 1;
+			max-width: calc(100vw - 32px);
+			padding: 24px;
+			width: 320px;
+		}
+
+		.popup h2 {
+			margin: 0 0 16px;
+		}
+
+		.popup p {
+			margin: 8px 0;
+		}
+
+		.popup button {
+			background: #0ea5e9;
+			border: 0;
+			border-radius: 6px;
+			color: white;
+			cursor: pointer;
+			font: inherit;
+			margin-top: 14px;
+			padding: 8px 16px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p id="instructions">Use W, A, S and D to move</p>
+		<canvas id="game" width="640" height="360" aria-label="A small game where you move the character with WASD"></canvas>
+	</div>
+	<div id="about-popup" class="popup-backdrop" hidden>
+		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="about-title">
+			<h2 id="about-title">About Me</h2>
+			<p><strong>Name:</strong> Joshua Wong</p>
+			<p><strong>Age:</strong> 17</p>
+			<p><strong>Birthday:</strong> August 28</p>
+			<p><strong>School:</strong> Swinburne University of Technology</p>
+			<p><strong>Country of Origin:</strong> Malaysia</p>
+			<p><strong>Hobby:</strong> Arduino</p>
+			<button id="close-about" type="button">Close</button>
+		</section>
+	</div>
+    	<div id="project-popup" class="popup-backdrop" hidden>
+		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="project-title">
+			<h2 id="project-title">My Projects</h2>
+			<p id="project-description"></p>
+			<button id="close-project" type="button">Close</button>
+		</section>
+	</div>
+
+	</div>
+    	<div id="contacts-popup" class="popup-backdrop" hidden>
+		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="contacts-title">
+			<h2 id="contacts-title">Contact Information</h2>
+			<p><strong>Email:</strong> jhua38275@gmail.com</p>
+			<button id="close-contacts" type="button">Close</button>
+		</section>
+	</div>
+
+	<script>
+		const canvas = document.getElementById('game');
+		const context = canvas.getContext('2d');
+		const keys = new Set();
+		const character = { x: canvas.width / 2, y: canvas.height / 2, size: 24, speed: 4 };
+        const aboutPopup = document.getElementById('about-popup');
+        const closeAbout = document.getElementById('close-about');
+        const projectPopup = document.getElementById('project-popup');
+        const closeProject = document.getElementById('close-project');
+        const contactsPopup = document.getElementById('contacts-popup');
+        const closeContacts = document.getElementById('close-contacts');
+        var names = ['About Me', 'Projects', 'Contact'];
+        const mainMenu = ['About Me', 'Projects', 'Contact'];
+        const projectMenu = [
+        'Dreamfall',
+        'The Infectious magma: relit',
+        'MediBook',
+        'The Most Epic Minigame Game Ever',
+        'Mimibot',
+        'Back'
+        ];
+        const projects = {
+            'Dreamfall': 'My first game jam entry, made in 4 days. A 2D sidescroller set in a dream(Oooooo)<br><br> Link to the game: <a href="https://tyoepic.itch.io/dreamfall" target="_blank">https://tyoepic.itch.io/dreamfall</a>',
+            'The Infectious magma: relit': 'A remake of my first ever game I made. A puzzle game where you try to solve the infectious magma.<br><br> Link to the game: <a href="https://tyoepic.itch.io/the-infectious-magma" target="_blank">https://tyoepic.itch.io/the-infectious-magma</a>',
+            'MediBook': 'My first python application. A simple medical booking system that allows you to book appointments and chat with doctors.<br><br> Link to the app: <a href="https://github.com/Tyo1epic/MediBook" target="_blank">https://github.com/Tyo1epic/MediBook</a>',
+            'The Most Epic Minigame Game Ever': 'My first ever Godot game, a collection of the most entertaining minigames.<br><br> Link to the game: <a href="https://tyoepic.itch.io/the-best-minigame-game-ever" target="_blank">https://tyoepic.itch.io/the-best-minigame-game-ever</a>',
+            'Mimibot': 'A bot made for my friend to have his mimikyu plushie be placed on top so it can look like it is hovering and followwing him around :3<br><br><img src="mimibot.jpeg" alt="Mimibot" width="100%">'
+        };
+                var current = ""
+
+		window.addEventListener('keydown', (event) => {
+			const key = event.key.toLowerCase();
+			if ('wasde'.includes(key)) {
+				event.preventDefault();
+				keys.add(key);
+			}n
+		});
+
+		window.addEventListener('keyup', (event) => keys.delete(event.key.toLowerCase()));
+
+		function update() {
+			if (keys.has('w')) character.y -= character.speed;
+			if (keys.has('s')) character.y += character.speed;
+			if (keys.has('a')) character.x -= character.speed;
+			if (keys.has('d')) character.x += character.speed;
+			if (keys.has('e')) interact();
+
+			const radius = character.size / 2;
+			character.x = Math.max(radius, Math.min(canvas.width - radius, character.x));
+			character.y = Math.max(radius, Math.min(canvas.height - radius, character.y));
+		}
+        function interact(){
+            keys.delete("e");
+            if (names == projectMenu){
+                if(current == "Back"){
+                    names = mainMenu;
+                    character.x = canvas.width / 2;
+                    character.y = canvas.height / 2;
+                }else{
+                    projectPopup.hidden = false;
+                    projectMenu.forEach((project) => {
+                        if (current == project){
+                            document.getElementById("project-title").innerHTML = current;
+                            document.getElementById("project-description").innerHTML = projects[current];
+                        }
+                    });
+                }
+            }else{            
+                if (current == "About Me"){
+				aboutPopup.hidden = false;
+            }
+            if (current == "Projects"){
+				names = projectMenu;
+                character.x = canvas.width / 2;
+                character.y = canvas.height / 2;
+            }
+            if (current == "Contact"){
+				contactsPopup.hidden = false;
+            }}
+        }
+
+		closeAbout.addEventListener('click', () => aboutPopup.hidden = true);
+		aboutPopup.addEventListener('click', (event) => {
+			if (event.target === aboutPopup) aboutPopup.hidden = true;
+		});
+		closeProject.addEventListener('click', () => projectPopup.hidden = true);
+		projectPopup.addEventListener('click', (event) => {
+			if (event.target === projectPopup) projectPopup.hidden = true;
+		});
+		closeContacts.addEventListener('click', () => contactsPopup.hidden = true);
+		contactsPopup.addEventListener('click', (evet) => {
+			if (event.target === contactsPopup) contactsPopup.hidden = true;
+		});
+		window.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape'){
+				aboutPopup.hidden = true;
+				projectPopup.hidden = true;
+				contactsPopup.hidden = true;
+			}
+		});
+		function draw() {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			context.fillStyle = '#334155';
+			context.fillRect(0, 0, canvas.width, canvas.height);
+
+			
+			const boxHeight = 44;
+			const boxGap = 12;
+			const boxWidth = canvas.width/names.length - boxGap;
+			const boxStart = (canvas.width - (boxWidth * names.length + boxGap * (names.length - 1))) / 2;
+            
+            var on = false;
+			for (let index = 0; index < names.length; index += 1) {
+				const boxX = boxStart + index * (boxWidth + boxGap);
+				const characterLeft = character.x - character.size / 2;
+				const characterTop = character.y - character.size / 2;
+				const isCharacterOnBox = characterLeft < boxX + boxWidth
+					&& characterLeft + character.size > boxX
+					&& characterTop < 16 + boxHeight
+					&& characterTop + character.size > 16;
+				context.shadowColor = isCharacterOnBox ? '#fef08a' : 'transparent';
+				context.shadowBlur = isCharacterOnBox ? 18 : 0;
+                if (isCharacterOnBox){
+                    on = true;
+                    document.getElementById("instructions").innerHTML = "Press E to enter '" + names[index] + "'";
+                    current = names[index]
+                }
+				context.fillStyle = '#e2e8f0';
+				context.fillRect(boxX, 16, boxWidth, boxHeight);
+				context.shadowBlur = 0;
+				context.fillStyle = '#0f172a';
+				context.font = '16px system-ui, sans-serif';
+				context.textAlign = 'center';
+				context.textBaseline = 'middle';
+                if (names[index].length > 8){
+                    context.fillText(names[index].substring(0, 7) + "...", boxX + boxWidth / 2, 16 + boxHeight / 2);
+				} else {
+					context.fillText(names[index], boxX + boxWidth / 2, 16 + boxHeight / 2);
+				}
+			}
+            if (!on) {
+                document.getElementById("instructions").innerHTML = "Use W, A, S and D to move";
+            }
+
+			const movingHorizontally = keys.has('a') || keys.has('d') ? keys.has('a') ? -1 : 1 : 0;
+			const movingVertically = keys.has('w') || keys.has('s') ? keys.has('w') ? -1 : 1 : 0;
+			const idleSquish = 1 + Math.sin(performance.now() / 180) * 0.04;
+			let scaleX = idleSquish;
+			let scaleY = 2 - idleSquish;
+			if (movingHorizontally) {
+				scaleX = 1.25;
+				scaleY = 0.8;
+			} else if (movingVertically) {
+				scaleX = 0.8;
+				scaleY = 1.25;
+			}
+
+			context.save();
+			context.translate(character.x, character.y);
+			if (movingHorizontally && movingVertically) {
+				context.rotate( Math.PI / 4);
+                if (movingHorizontally == -1 && movingVertically == 1 || movingHorizontally == 1 && movingVertically == -1){
+                    context.rotate( Math.PI / 2);
+                }
+
+			}
+			context.scale(scaleX, scaleY);
+			context.fillStyle = '#38bdf8';
+			context.fillRect(-character.size / 2, -character.size / 2, character.size, character.size);
+			context.shadowBlur = 0;
+			context.fillStyle = '#082f49';
+			context.fillRect(-6 + movingHorizontally, -5 + movingVertically, 4, 4);
+			context.fillRect(2 + movingHorizontally, -5 + movingVertically, 4, 4);
+			context.restore();
+		}
+
+		function gameLoop() {
+			update();
+			draw();
+			requestAnimationFrame(gameLoop);
+		}
+
+		gameLoop();
+	</script>
+</body>
+</html>
