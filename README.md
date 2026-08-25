@@ -10,3 +10,6 @@ AI was used for me to better understand how to implement canvases and movable ch
 Controls:
 
 WASD to move and E to interact
+
+
+You can try the website out here: https://steelyxepic.github.io/My-Epic-Website/
