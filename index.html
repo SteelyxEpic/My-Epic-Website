@@ -126,24 +126,27 @@
         const closeProject = document.getElementById('close-project');
         const contactsPopup = document.getElementById('contacts-popup');
         const closeContacts = document.getElementById('close-contacts');
-        var names = ['About Me', 'Projects', 'Contact'];
-        const mainMenu = ['About Me', 'Projects', 'Contact'];
-        const projectMenu = [
-        'Dreamfall',
-        'The Infectious magma: relit',
-        'MediBook',
-        'The Most Epic Minigame Game Ever',
-        'Mimibot',
-        'Back'
-        ];
-        const projects = {
-            'Dreamfall': 'My first game jam entry, made in 4 days. A 2D sidescroller set in a dream(Oooooo)<br><br> Link to the game: <a href="https://tyoepic.itch.io/dreamfall" target="_blank">https://tyoepic.itch.io/dreamfall</a>',
-            'The Infectious magma: relit': 'A remake of my first ever game I made. A puzzle game where you try to solve the infectious magma.<br><br> Link to the game: <a href="https://tyoepic.itch.io/the-infectious-magma" target="_blank">https://tyoepic.itch.io/the-infectious-magma</a>',
-            'MediBook': 'My first python application. A simple medical booking system that allows you to book appointments and chat with doctors.<br><br> Link to the app: <a href="https://github.com/Tyo1epic/MediBook" target="_blank">https://github.com/Tyo1epic/MediBook</a>',
-            'The Most Epic Minigame Game Ever': 'My first ever Godot game, a collection of the most entertaining minigames.<br><br> Link to the game: <a href="https://tyoepic.itch.io/the-best-minigame-game-ever" target="_blank">https://tyoepic.itch.io/the-best-minigame-game-ever</a>',
-            'Mimibot': 'A bot made for my friend to have his mimikyu plushie be placed on top so it can look like it is hovering and followwing him around :3<br><br><img src="mimibot.jpeg" alt="Mimibot" width="100%">'
-        };
+        var names = ['About Me', 'Projects', 'Skills', 'Contact'];
+        const mainMenu = ['About Me', 'Projects', 'Skills', 'Contact'];
+        const projects = {};
+        const skills = {};
                 var current = ""
+
+		async function loadUserData() {
+			try {
+				const response = await fetch('./data.json');
+				
+				const users = await response.json();
+				
+				console.log('Loaded JSON data:', users.Projects);
+				projects = users.Projects;
+				skills = users.Skills;
+			} catch (error) {
+				console.error('Error loading JSON data:', error);
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', loadUserData);
 
 		window.addEventListener('keydown', (event) => {
 			const key = event.key.toLowerCase();
@@ -168,14 +171,14 @@
 		}
         function interact(){
             keys.delete("e");
-            if (names == projectMenu){
+            if (names == Object.keys(projects)){
                 if(current == "Back"){
                     names = mainMenu;
                     character.x = canvas.width / 2;
                     character.y = canvas.height / 2;
                 }else{
                     projectPopup.hidden = false;
-                    projectMenu.forEach((project) => {
+                    Object.keys(projects).forEach((project) => {
                         if (current == project){
                             document.getElementById("project-title").innerHTML = current;
                             document.getElementById("project-description").innerHTML = projects[current];
@@ -187,12 +190,17 @@
 				aboutPopup.hidden = false;
             }
             if (current == "Projects"){
-				names = projectMenu;
+				names = Object.keys(projects);
                 character.x = canvas.width / 2;
                 character.y = canvas.height / 2;
             }
             if (current == "Contact"){
 				contactsPopup.hidden = false;
+            }
+			if (current == "skills"){
+				names = Object.keys(skills);
+                character.x = canvas.width / 2;
+                character.y = canvas.height / 2;
             }}
         }
 
@@ -223,6 +231,9 @@
 			
 			const boxHeight = 44;
 			const boxGap = 12;
+			if (!(names == mainMenu || names.includes("Back"))){
+				names.push("Back");
+			}
 			const boxWidth = canvas.width/names.length - boxGap;
 			const boxStart = (canvas.width - (boxWidth * names.length + boxGap * (names.length - 1))) / 2;
             
@@ -298,19 +309,6 @@
 		}
 		
 		gameLoop();
-async function loadUserData() {
-    try {
-        const response = await fetch('./data.json');
-        
-        const users = await response.json();
-        
-        console.log('Loaded JSON data:', users.Projects);
-    } catch (error) {
-        console.error('Error loading JSON data:', error);
-    }
-}
-
-window.addEventListener('DOMContentLoaded', loadUserData);
 
 	</script>
 </body>

@@ -5,5 +5,10 @@
             "MediBook": "My first python application. A simple medical booking system that allows you to book appointments and chat with doctors.<br><br> Link to the app: <a href=\"https://github.com/Tyo1epic/MediBook\" target=\"_blank\">https://github.com/Tyo1epic/MediBook</a>",
             "The Most Epic Minigame Game Ever": "My first ever Godot game, a collection of the most entertaining minigames.<br><br> Link to the game: <a href=\"https://tyoepic.itch.io/the-best-minigame-game-ever\" target=\"_blank\">https://tyoepic.itch.io/the-best-minigame-game-ever</a>",
             "Mimibot": "A bot made for my friend to have his mimikyu plushie be placed on top so it can look like it is hovering and followwing him around :3<br><br><img src=\"mimibot.jpeg\" alt=\"Mimibot\" width=\"100%\">"
+        },
+    "Skills": {
+            "Programming": "Python, JavaScript, HTML, CSS",
+            "Game Development": "Godot, Unity",
+            "Design": "UI/UX Design"
         }
 }
