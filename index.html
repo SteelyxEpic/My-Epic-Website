@@ -150,7 +150,7 @@
 			if ('wasde'.includes(key)) {
 				event.preventDefault();
 				keys.add(key);
-			}n
+			}
 		});
 
 		window.addEventListener('keyup', (event) => keys.delete(event.key.toLowerCase()));
@@ -296,8 +296,22 @@
 			draw();
 			requestAnimationFrame(gameLoop);
 		}
-
+		
 		gameLoop();
+async function loadUserData() {
+    try {
+        const response = await fetch('./data.json');
+        
+        const users = await response.json();
+        
+        console.log('Loaded JSON data:', users.Projects);
+    } catch (error) {
+        console.error('Error loading JSON data:', error);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', loadUserData);
+
 	</script>
 </body>
 </html>
