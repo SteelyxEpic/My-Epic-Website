@@ -408,6 +408,8 @@ return ["Back"];
 					character.y - npc.y
 				);
 
+const npcBob =
+	Math.sin(performance.now() / 500) * 4;
 			if (npcDistance < 40) {
 				on = true;
 
@@ -439,8 +441,6 @@ return ["Back"];
 				scaleX = 0.8;
 				scaleY = 1.25;
 			}  
-const npcBob =
-	Math.sin(performance.now() / 500) * 4;
 
 const npcSquish =
 	1 + Math.sin(performance.now() / 250) * 0.08;
