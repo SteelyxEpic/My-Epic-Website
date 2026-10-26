@@ -105,8 +105,6 @@
 			<button id="close-project" type="button">Close</button>
 		</section>
 	</div>
-
-	</div>
     	<div id="contacts-popup" class="popup-backdrop" hidden>
 		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="contacts-title">
 			<h2 id="contacts-title">Contact Information</h2>
@@ -126,11 +124,11 @@
         const closeProject = document.getElementById('close-project');
         const contactsPopup = document.getElementById('contacts-popup');
         const closeContacts = document.getElementById('close-contacts');
-        var names = ['About Me', 'Projects', 'Skills', 'Contact'];
-        const mainMenu = ['About Me', 'Projects', 'Skills', 'Contact'];
-        const projects = {};
-        const skills = {};
-                var current = ""
+		const data = {"mainMenu": ["About Me", "Contact"]};
+		const gameState = {
+			current: null,
+			scene: "mainMenu"
+		};
 
 		async function loadUserData() {
 			try {
@@ -138,9 +136,11 @@
 				
 				const users = await response.json();
 				
-				console.log('Loaded JSON data:', users.Projects);
-				projects = users.Projects;
-				skills = users.Skills;
+				for (const [key, value] of Object.entries(users)) {
+					console.log(`Key: ${key}, Value:`, value);
+					data[key] = value;
+					data["mainMenu"].push(key);
+				}
 			} catch (error) {
 				console.error('Error loading JSON data:', error);
 			}
@@ -171,37 +171,31 @@
 		}
         function interact(){
             keys.delete("e");
-            if (names == Object.keys(projects)){
-                if(current == "Back"){
-                    names = mainMenu;
+            if (gameState.scene == "mainMenu"){
+                if (gameState.current == "About Me"){
+				aboutPopup.hidden = false;
+            }
+            if (gameState.current in data){
+				gameState.scene = gameState.current;
+                character.x = canvas.width / 2;
+                character.y = canvas.height / 2;
+            }
+            if (gameState.current == "Contact"){
+				contactsPopup.hidden = false;
+            }
+            }else{   
+                if(gameState.current == "Back"){
+                    gameState.scene = "mainMenu";
                     character.x = canvas.width / 2;
                     character.y = canvas.height / 2;
                 }else{
                     projectPopup.hidden = false;
-                    Object.keys(projects).forEach((project) => {
-                        if (current == project){
-                            document.getElementById("project-title").innerHTML = current;
-                            document.getElementById("project-description").innerHTML = projects[current];
-                        }
-                    });
-                }
-            }else{            
-                if (current == "About Me"){
-				aboutPopup.hidden = false;
-            }
-            if (current == "Projects"){
-				names = Object.keys(projects);
-                character.x = canvas.width / 2;
-                character.y = canvas.height / 2;
-            }
-            if (current == "Contact"){
-				contactsPopup.hidden = false;
-            }
-			if (current == "skills"){
-				names = Object.keys(skills);
-                character.x = canvas.width / 2;
-                character.y = canvas.height / 2;
-            }}
+					document.getElementById("project-title").textContent = gameState.current;
+					document.getElementById("project-description").innerHTML = data[gameState.scene][gameState.current];
+                        
+                    
+                }         
+			}
         }
 
 		closeAbout.addEventListener('click', () => aboutPopup.hidden = true);
@@ -213,7 +207,7 @@
 			if (event.target === projectPopup) projectPopup.hidden = true;
 		});
 		closeContacts.addEventListener('click', () => contactsPopup.hidden = true);
-		contactsPopup.addEventListener('click', (evet) => {
+		contactsPopup.addEventListener('click', (event) => {
 			if (event.target === contactsPopup) contactsPopup.hidden = true;
 		});
 		window.addEventListener('keydown', (event) => {
@@ -223,6 +217,15 @@
 				contactsPopup.hidden = true;
 			}
 		});
+		function getCurrentNames() {
+			if (!data[gameState.scene]) {
+return ["Back"];
+}
+		if (gameState.scene != "mainMenu") {
+		return [...Object.keys(data[gameState.scene]), "Back"];
+		}
+		return data[gameState.scene];
+		}
 		function draw() {
 			context.clearRect(0, 0, canvas.width, canvas.height);
 			context.fillStyle = '#334155';
@@ -231,14 +234,12 @@
 			
 			const boxHeight = 44;
 			const boxGap = 12;
-			if (!(names == mainMenu || names.includes("Back"))){
-				names.push("Back");
-			}
-			const boxWidth = canvas.width/names.length - boxGap;
-			const boxStart = (canvas.width - (boxWidth * names.length + boxGap * (names.length - 1))) / 2;
+			const tempNames = getCurrentNames();
+			const boxWidth = canvas.width/tempNames.length - boxGap;
+			const boxStart = (canvas.width - (boxWidth * tempNames.length + boxGap * (tempNames.length - 1))) / 2;
             
             var on = false;
-			for (let index = 0; index < names.length; index += 1) {
+			for (let index = 0; index < tempNames.length; index += 1) {
 				const boxX = boxStart + index * (boxWidth + boxGap);
 				const characterLeft = character.x - character.size / 2;
 				const characterTop = character.y - character.size / 2;
@@ -250,8 +251,8 @@
 				context.shadowBlur = isCharacterOnBox ? 18 : 0;
                 if (isCharacterOnBox){
                     on = true;
-                    document.getElementById("instructions").innerHTML = "Press E to enter '" + names[index] + "'";
-                    current = names[index]
+                    document.getElementById("instructions").innerHTML = "Press E to enter '" + tempNames[index] + "'";
+                    gameState.current = tempNames[index]
                 }
 				context.fillStyle = '#e2e8f0';
 				context.fillRect(boxX, 16, boxWidth, boxHeight);
@@ -260,14 +261,15 @@
 				context.font = '16px system-ui, sans-serif';
 				context.textAlign = 'center';
 				context.textBaseline = 'middle';
-                if (names[index].length > 8){
-                    context.fillText(names[index].substring(0, 7) + "...", boxX + boxWidth / 2, 16 + boxHeight / 2);
+                if (tempNames[index].length > 8){
+                    context.fillText(tempNames[index].substring(0, 7) + "...", boxX + boxWidth / 2, 16 + boxHeight / 2);
 				} else {
-					context.fillText(names[index], boxX + boxWidth / 2, 16 + boxHeight / 2);
+					context.fillText(tempNames[index], boxX + boxWidth / 2, 16 + boxHeight / 2);
 				}
 			}
             if (!on) {
                 document.getElementById("instructions").innerHTML = "Use W, A, S and D to move";
+				gameState.current = null;
             }
 
 			const movingHorizontally = keys.has('a') || keys.has('d') ? keys.has('a') ? -1 : 1 : 0;
