@@ -1,14 +1,157 @@
 {
-    "Projects": {
-            "Dreamfall": "My first game jam entry, made in 4 days. A 2D sidescroller set in a dream(Oooooo)<br><br> Link to the game: <a href=\"https://tyoepic.itch.io/dreamfall\" target=\"_blank\">https://tyoepic.itch.io/dreamfall</a>",
-            "The Infectious magma: relit": "A remake of my first ever game I made. A puzzle game where you try to solve the infectious magma.<br><br> Link to the game: <a href=\"https://tyoepic.itch.io/the-infectious-magma\" target=\"_blank\">https://tyoepic.itch.io/the-infectious-magma</a>",
-            "MediBook": "My first python application. A simple medical booking system that allows you to book appointments and chat with doctors.<br><br> Link to the app: <a href=\"https://github.com/Tyo1epic/MediBook\" target=\"_blank\">https://github.com/Tyo1epic/MediBook</a>",
-            "The Most Epic Minigame Game Ever": "My first ever Godot game, a collection of the most entertaining minigames.<br><br> Link to the game: <a href=\"https://tyoepic.itch.io/the-best-minigame-game-ever\" target=\"_blank\">https://tyoepic.itch.io/the-best-minigame-game-ever</a>",
-            "Mimibot": "A bot made for my friend to have his mimikyu plushie be placed on top so it can look like it is hovering and followwing him around :3<br><br><img src=\"mimibot.jpeg\" alt=\"Mimibot\" width=\"100%\">"
-        },
-    "Skills": {
-            "Programming": "Python, JavaScript, HTML, CSS",
-            "Game Development": "Godot, Unity",
-            "Design": "UI/UX Design"
+  "Projects": {
+    "Dreamfall": {
+      "category": "Game Development",
+      "description": "My first game jam entry, made in 4 days. A 2D sidescroller set in a dream.",
+      "technologies": [],
+      "highlights": [],
+      "images": [],
+      "links": [
+        {
+          "label": "View on itch.io",
+          "url": "https://tyoepic.itch.io/dreamfall",
+          "type": "game"
         }
+      ],
+      "status": "Completed"
+    },
+    "The Infectious Magma: Relit": {
+      "category": "Game Development",
+      "description": "A remake of the first game I ever made. A puzzle game where you solve the mystery of the infectious magma.",
+      "technologies": [],
+      "highlights": [],
+      "images": [],
+      "links": [
+        {
+          "label": "View on itch.io",
+          "url": "https://tyoepic.itch.io/the-infectious-magma",
+          "type": "game"
+        }
+      ],
+      "status": "Completed"
+    },
+    "MediBook": {
+      "category": "Software Development",
+      "description": "My first Python application. A medical booking system that allows patients to book appointments and communicate with doctors.",
+      "technologies": [
+        "Python"
+      ],
+      "highlights": [],
+      "images": [],
+      "links": [
+        {
+          "label": "View on GitHub",
+          "url": "https://github.com/Tyo1epic/MediBook",
+          "type": "repository"
+        }
+      ],
+      "status": "Completed"
+    },
+    "The Most Epic Minigame Game Ever": {
+      "category": "Game Development",
+      "description": "My first Godot game. A collection of entertaining minigames built for fun and experimentation.",
+      "technologies": [
+        "Godot"
+      ],
+      "highlights": [],
+      "images": [],
+      "links": [
+        {
+          "label": "View on itch.io",
+          "url": "https://tyoepic.itch.io/the-best-minigame-game-ever",
+          "type": "game"
+        }
+      ],
+      "status": "Completed"
+    },
+    "Mimibot": {
+      "category": "Robotics & Embedded Systems",
+      "description": "A robot made for my friend that allows a Mimikyu plushie to appear as if it is floating and following him around.",
+      "technologies": [],
+      "highlights": [],
+      "images": [
+        {
+          "src": "mimibot.jpeg",
+          "alt": "Mimibot"
+        }
+      ],
+      "links": [],
+      "status": "Completed"
+    }
+  }, 
+
+  "Skills": {
+    "Programming": {
+      "description": "Programming languages used to build applications and interactive projects.",
+      "items": [
+        "Python",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "projects": [
+        "MediBook"
+      ]
+    },
+    "Game Development": {
+      "description": "Game development using Unity and Godot, including work on games and interactive mechanics.",
+      "items": [
+        "Godot",
+        "Unity"
+      ],
+      "projects": [
+        "Dreamfall",
+        "The Infectious Magma: Relit",
+        "The Most Epic Minigame Game Ever"
+      ]
+    },
+    "Embedded Systems": {
+      "description": "Building interactive electronics projects involving microcontrollers and hardware.",
+      "items": [
+        "Arduino",
+        "ESP32"
+      ],
+      "projects": [
+        "Mimibot"
+      ]
+    },
+    "UI/UX Design": {
+      "description": "Interested in creating interactive interfaces that are clear, engaging, and easy to navigate. This portfolio is one example of my approach to interactive web design.",
+      "items": [],
+      "projects": []
+    },
+    "Database Management": {
+      "description": "Experience working with JSON data in web projects and using spreadsheets to organize and manipulate data.",
+      "items": [
+        "JSON",
+        "Microsoft Excel",
+        "Google Sheets"
+      ],
+      "projects": []
+    }
+  },
+
+"Experience": {
+    "Python Development": {
+      "description": "Built desktop applications using Python and Tkinter.",
+      "projects": [
+        "MediBook"
+      ],
+      "technologies": [
+        "Python",
+        "Tkinter"
+      ]
+    },
+    "Game Development": {
+      "description": "Started with Unity and now primarily use Godot for puzzle-based game development.",
+      "projects": [
+        "Dreamfall",
+        "The Infectious Magma: Relit",
+        "The Most Epic Minigame Game Ever"
+      ],
+      "technologies": [
+        "Unity",
+        "Godot"
+      ]
+    }}
 }

@@ -49,16 +49,18 @@
 		}
 
 		.popup {
-			background: #f8fafc;
-			border: 3px solid #38bdf8;
-			border-radius: 4px;
-			box-sizing: border-box;
-			box-shadow: 0 12px 36px rgb(0 0 0 / 40%);
-			color: #0f172a;
-			aspect-ratio: 1;
-			max-width: calc(100vw - 32px);
-			padding: 24px;
-			width: 320px;
+    background: #f8fafc;
+    border: 3px solid #38bdf8;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 12px 36px rgb(0 0 0 / 40%);
+    color: #0f172a;
+    max-width: calc(100vw - 32px);
+    padding: 24px;
+    width: 420px;
+    max-height: 80vh;
+    overflow-y: auto;
+
 		}
 
 		.popup h2 {
@@ -79,10 +81,33 @@
 			margin-top: 14px;
 			padding: 8px 16px;
 		}
+		#dialogue-box {
+	width: 640px;
+	max-width: calc(100vw - 32px);
+	min-height: 80px;
+
+	background: #0f172a;
+
+	border: 2px solid #38bdf8;
+	border-radius: 8px;
+
+	padding: 12px;
+	box-sizing: border-box;
+}
+
+#dialogue-text {
+	color: white;
+	line-height: 1.4;
+}
 	</style>
 </head>
 <body>
 	<div id="app">
+	<div id="dialogue-box">
+<p id="dialogue-text">
+Find the robot to chat!
+</p>
+</div>
 		<p id="instructions">Use W, A, S and D to move</p>
 		<canvas id="game" width="640" height="360" aria-label="A small game where you move the character with WASD"></canvas>
 	</div>
@@ -98,7 +123,7 @@
 			<button id="close-about" type="button">Close</button>
 		</section>
 	</div>
-    	<div id="project-popup" class="popup-backdrop" hidden>
+    	<div id="content-popup" class="popup-backdrop" hidden>
 		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="project-title">
 			<h2 id="project-title">My Projects</h2>
 			<p id="project-description"></p>
@@ -114,13 +139,29 @@
 	</div>
 
 	<script>
+		
+const npcLines = [
+	"Hi! Welcome to Joshua's portfolio.",
+	"He enjoys game development using Godot.",
+	"Have a look at the Projects menu!",
+	"MediBook was one of his first major software projects.",
+	"Press E near items to interact with them."
+];
+const npc = {
+	x: 500,
+	y: 250,
+	size: 24,
+	name: "Portfolio Bot"
+};
+let dialogueIndex = 0;
+
 		const canvas = document.getElementById('game');
 		const context = canvas.getContext('2d');
 		const keys = new Set();
 		const character = { x: canvas.width / 2, y: canvas.height / 2, size: 24, speed: 4 };
         const aboutPopup = document.getElementById('about-popup');
         const closeAbout = document.getElementById('close-about');
-        const projectPopup = document.getElementById('project-popup');
+        const projectPopup = document.getElementById('content-popup');
         const closeProject = document.getElementById('close-project');
         const contactsPopup = document.getElementById('contacts-popup');
         const closeContacts = document.getElementById('close-contacts');
@@ -157,7 +198,86 @@
 		});
 
 		window.addEventListener('keyup', (event) => keys.delete(event.key.toLowerCase()));
+		function renderContent(item) {
+			let html = "";
 
+			if (item.category) {
+				html += `<p><strong>Category:</strong> ${item.category}</p>`;
+			}
+
+			if (item.description) {
+				html += `<p>${item.description}</p>`;
+			}
+
+			if (item.status) {
+				html += `<p><strong>Status:</strong> ${item.status}</p>`;
+			}
+
+			if (item.technologies?.length) {
+				html += `
+					<p>
+						<strong>Technologies:</strong>
+						${item.technologies.join(", ")}
+					</p>
+				`;
+			}
+
+			if (item.highlights?.length) {
+				html += `
+					<p><strong>Highlights:</strong></p>
+					<ul>
+						${item.highlights.map(h => `<li>${h}</li>`).join("")}
+					</ul>
+				`;
+			}
+
+			if (item.projects?.length) {
+				html += `
+					<p>
+						<strong>Related Projects:</strong>
+						${item.projects.join(", ")}
+					</p>
+				`;
+			}
+
+			if (item.items?.length) {
+				html += `
+					<p>
+						<strong>Skills:</strong>
+						${item.items.join(", ")}
+					</p>
+				`;
+			}
+
+			if (item.links?.length) {
+				html += "<p><strong>Links:</strong></p>";
+
+				item.links.forEach(link => {
+					html += `
+						<p>
+							<a href="${link.url}" target="_blank">
+								${link.label}
+							</a>
+						</p>
+					`;
+				});
+			}
+
+			if (item.images?.length) {
+				item.images.forEach(image => {
+					html += `
+						<img
+							src="${image.src}"
+							alt="${image.alt}"
+							width="100%"
+							style="border-radius:8px;margin-top:8px;"
+						>
+					`;
+				});
+			}
+
+			return html;
+		}
 		function update() {
 			if (keys.has('w')) character.y -= character.speed;
 			if (keys.has('s')) character.y += character.speed;
@@ -171,6 +291,22 @@
 		}
         function interact(){
             keys.delete("e");
+			const distance =
+	Math.hypot(
+		character.x - npc.x,
+		character.y - npc.y
+	);
+
+if (distance < 40) {
+	document.getElementById("dialogue-text").textContent =
+		npcLines[dialogueIndex];
+
+	dialogueIndex =
+		(dialogueIndex + 1) %
+		npcLines.length;
+
+	return;
+}
             if (gameState.scene == "mainMenu"){
                 if (gameState.current == "About Me"){
 				aboutPopup.hidden = false;
@@ -191,9 +327,7 @@
                 }else{
                     projectPopup.hidden = false;
 					document.getElementById("project-title").textContent = gameState.current;
-					document.getElementById("project-description").innerHTML = data[gameState.scene][gameState.current];
-                        
-                    
+					document.getElementById("project-description").innerHTML = renderContent(data[gameState.scene][gameState.current]);
                 }         
 			}
         }
@@ -251,7 +385,10 @@ return ["Back"];
 				context.shadowBlur = isCharacterOnBox ? 18 : 0;
                 if (isCharacterOnBox){
                     on = true;
-                    document.getElementById("instructions").innerHTML = "Press E to enter '" + tempNames[index] + "'";
+					if(tempNames[index] == "Back"){
+						document.getElementById("instructions").innerHTML = "Press E to return to the main menu";
+					} else {
+                    document.getElementById("instructions").innerHTML = "Press E to enter '" + tempNames[index] + "'";}
                     gameState.current = tempNames[index]
                 }
 				context.fillStyle = '#e2e8f0';
@@ -266,6 +403,18 @@ return ["Back"];
 				} else {
 					context.fillText(tempNames[index], boxX + boxWidth / 2, 16 + boxHeight / 2);
 				}
+			}
+			const npcDistance =
+				Math.hypot(
+					character.x - npc.x,
+					character.y - npc.y
+				);
+
+			if (npcDistance < 40) {
+				on = true;
+
+				document.getElementById("instructions").innerHTML =
+					"Press E to talk";
 			}
             if (!on) {
                 document.getElementById("instructions").innerHTML = "Use W, A, S and D to move";
@@ -284,8 +433,18 @@ return ["Back"];
 				scaleX = 0.8;
 				scaleY = 1.25;
 			}
+			context.fillStyle = "#f97316";
 
-			context.save();
+			context.beginPath();
+			context.arc(
+				npc.x,
+				npc.y,
+				npc.size / 2,
+				0,
+				Math.PI * 2
+			);
+			context.fill();
+			context.save();  
 			context.translate(character.x, character.y);
 			if (movingHorizontally && movingVertically) {
 				context.rotate( Math.PI / 4);
@@ -301,6 +460,7 @@ return ["Back"];
 			context.fillStyle = '#082f49';
 			context.fillRect(-6 + movingHorizontally, -5 + movingVertically, 4, 4);
 			context.fillRect(2 + movingHorizontally, -5 + movingVertically, 4, 4);
+
 			context.restore();
 		}
 
