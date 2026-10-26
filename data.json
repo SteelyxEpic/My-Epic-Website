@@ -153,5 +153,16 @@
         "Unity",
         "Godot"
       ]
-    }}
+    }},
+    "npcLines": [
+	"Hi! Welcome to Joshua's portfolio!",
+	"He learnt Godot using stardance!",
+	"Have a look at the Projects menu!",
+	"MediBook was one of his first major software projects! (He was so proud of it! Hehe~)",
+	"Press E near items to interact with them!",
+	"Mimibot was built for his friend cuz his friend loves Mimikyu!~",
+	"He also made a game called Dreamfall for a game jam!~",
+    "Joshua is a student at the University of Swinburne Sawarak!",
+    "My name is MiBot!~"
+    ]
 }

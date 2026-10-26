@@ -140,13 +140,7 @@ Find the robot to chat!
 
 	<script>
 		
-const npcLines = [
-	"Hi! Welcome to Joshua's portfolio.",
-	"He enjoys game development using Godot.",
-	"Have a look at the Projects menu!",
-	"MediBook was one of his first major software projects.",
-	"Press E near items to interact with them."
-];
+const npcLines = [];
 const npc = {
 	x: 500,
 	y: 250,
@@ -179,6 +173,10 @@ let dialogueIndex = 0;
 				
 				for (const [key, value] of Object.entries(users)) {
 					console.log(`Key: ${key}, Value:`, value);
+					if (key == "npcLines") {
+						npcLines.push(...value);
+						continue;
+					}
 					data[key] = value;
 					data["mainMenu"].push(key);
 				}
@@ -415,6 +413,14 @@ return ["Back"];
 
 				document.getElementById("instructions").innerHTML =
 					"Press E to talk";
+	context.fillStyle = "#fef08a";
+	context.font = "12px system-ui";
+
+	context.fillText(
+		"💬",
+		npc.x + 20,
+		npc.y - 20 + npcBob
+	);
 			}
             if (!on) {
                 document.getElementById("instructions").innerHTML = "Use W, A, S and D to move";
@@ -432,18 +438,66 @@ return ["Back"];
 			} else if (movingVertically) {
 				scaleX = 0.8;
 				scaleY = 1.25;
-			}
-			context.fillStyle = "#f97316";
+			}  
+const npcBob =
+	Math.sin(performance.now() / 500) * 4;
 
-			context.beginPath();
-			context.arc(
-				npc.x,
-				npc.y,
-				npc.size / 2,
-				0,
-				Math.PI * 2
-			);
-			context.fill();
+const npcSquish =
+	1 + Math.sin(performance.now() / 250) * 0.08;
+
+let npcScaleX = npcSquish;
+let npcScaleY = 2 - npcSquish;
+
+// Extra excitement when player is nearby
+if (npcDistance < 40) {
+	npcScaleX = 1.2;
+	npcScaleY = 0.8;
+}
+
+// Draw NPC name
+context.fillStyle = "white";
+context.font = "14px system-ui";
+context.textAlign = "center";
+
+context.fillText(
+	"MiBot",
+	npc.x,
+	npc.y - 25 + npcBob
+);
+
+// Draw NPC
+context.save();
+
+context.translate(
+	npc.x,
+	npc.y + npcBob
+);
+
+context.scale(
+	npcScaleX,
+	npcScaleY
+);
+
+context.fillStyle = "#f97316";
+
+context.beginPath();
+context.arc(
+	0,
+	0,
+	npc.size / 2,
+	0,
+	Math.PI * 2
+);
+
+context.fill();
+
+// Eyes
+context.fillStyle = "#7c2d12";
+
+context.fillRect(-5, -4, 3, 3);
+context.fillRect(2, -4, 3, 3);
+
+context.restore();
 			context.save();  
 			context.translate(character.x, character.y);
 			if (movingHorizontally && movingVertically) {
