@@ -5,15 +5,100 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>My Epic Website</title>
 	<style>
+		
 		:root {
 			font-family: system-ui, sans-serif;
 			color: #f8fafc;
 			background: #111827;
 		}
-
+		#volume-slider {
+width: 80px;
+cursor: pointer;
+}
 		body {
-			margin: 0;
-		}
+	margin: 0;
+	min-height: 100vh;
+	overflow: hidden;
+
+	background:
+		radial-gradient(2px 2px at 20px 30px, white, transparent),
+		radial-gradient(2px 2px at 120px 80px, white, transparent),
+		radial-gradient(1.5px 1.5px at 250px 50px, #fff, transparent),
+		radial-gradient(2px 2px at 400px 120px, #fff, transparent),
+		radial-gradient(1px 1px at 500px 30px, #fff, transparent),
+		radial-gradient(2px 2px at 650px 80px, #fff, transparent),
+		radial-gradient(1px 1px at 800px 40px, #fff, transparent),
+		radial-gradient(2px 2px at 950px 100px, #fff, transparent),
+		radial-gradient(1px 1px at 1050px 50px, #fff, transparent),
+		linear-gradient(to bottom, #020617, #0f172a, #1e293b);
+
+	background-size:
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		1200px 600px,
+		100% 100%;
+}
+#music-player {
+	position: fixed;
+	left: 16px;
+	bottom: 16px;
+
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	background: rgba(15, 23, 42, 0.95);
+
+	border: 2px solid #38bdf8;
+	border-radius: 10px;
+
+	padding: 10px 14px;
+
+	backdrop-filter: blur(8px);
+
+	box-shadow:
+		0 0 15px rgba(56,189,248,0.3);
+
+	z-index: 1000;
+}
+#music-player:hover {
+	transform: translateY(-2px);
+}
+#music-player {
+	transition: 0.2s;
+}
+
+#music-info {
+	color: white;
+	font-size: 14px;
+	max-width: 180px;
+}
+
+#music-toggle {
+	background: #38bdf8;
+	color: white;
+
+	border: none;
+	border-radius: 50%;
+
+	width: 36px;
+	height: 36px;
+
+	cursor: pointer;
+
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#music-toggle:hover {
+	background: #0ea5e9;
+}
 
 		#app {
 			align-items: center;
@@ -99,16 +184,34 @@
 	color: white;
 	line-height: 1.4;
 }
+.music-attribution {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  color: #555555;
+}
+
+.music-attribution a {
+  color: #0076d6; /* A softer, more professional blue */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.music-attribution a:hover {
+  color: #00569d;
+  text-decoration: underline;
+}
+
 	</style>
 </head>
 <body>
 	<div id="app">
+		<p id="instructions">Use W, A, S and D to move</p>
 	<div id="dialogue-box">
 <p id="dialogue-text">
 Find the robot to chat!
 </p>
 </div>
-		<p id="instructions">Use W, A, S and D to move</p>
 		<canvas id="game" width="640" height="360" aria-label="A small game where you move the character with WASD"></canvas>
 	</div>
 	<div id="about-popup" class="popup-backdrop" hidden>
@@ -116,28 +219,42 @@ Find the robot to chat!
 			<h2 id="about-title">About Me</h2>
 			<p><strong>Name:</strong> Joshua Wong</p>
 			<p><strong>Age:</strong> 17</p>
-			<p><strong>Birthday:</strong> August 28</p>
-			<p><strong>School:</strong> Swinburne University of Technology</p>
+			<p><strong>Birthday:</strong> August 28</p> 
+			<p><strong>School:</strong> Swinburne University of Technology Sarawak Campus</p>
 			<p><strong>Country of Origin:</strong> Malaysia</p>
 			<p><strong>Hobby:</strong> Arduino</p>
 			<button id="close-about" type="button">Close</button>
 		</section>
 	</div>
-    	<div id="content-popup" class="popup-backdrop" hidden>
+
+    <div id="content-popup" class="popup-backdrop" hidden>
 		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="project-title">
 			<h2 id="project-title">My Projects</h2>
 			<p id="project-description"></p>
 			<button id="close-project" type="button">Close</button>
 		</section>
 	</div>
-    	<div id="contacts-popup" class="popup-backdrop" hidden>
+
+    <div id="contacts-popup" class="popup-backdrop" hidden>
 		<section class="popup" role="dialog" aria-modal="true" aria-labelledby="contacts-title">
 			<h2 id="contacts-title">Contact Information</h2>
 			<p><strong>Email:</strong> jhua38275@gmail.com</p>
 			<button id="close-contacts" type="button">Close</button>
 		</section>
 	</div>
+<div id="music-player">
+	<div id="music-info">
+		<span class="music-attribution">
+  Calm by <a href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=589817" target="_blank" rel="noopener noreferrer">Nikita Kondrashev</a>
+</span>
 
+	</div>
+<input type="range" id="volume-slider" min="0" max="100" value="50">
+	<button id="music-toggle">▶</button>
+	<audio id="bgm" loop>
+		<source src="calm1.mp3" type="audio/mpeg">
+	</audio>
+</div>
 	<script>
 		
 const npcLines = [];
@@ -145,7 +262,7 @@ const npc = {
 	x: 500,
 	y: 250,
 	size: 24,
-	name: "Portfolio Bot"
+	name: "MiBot"
 };
 let dialogueIndex = 0;
 
@@ -276,6 +393,22 @@ let dialogueIndex = 0;
 
 			return html;
 		}
+		let isTyping = false;
+
+async function typeText(element, text, speed = 30) {
+    if (isTyping) return;
+
+    isTyping = true;
+    element.textContent = "";
+
+    for (let i = 0; i < text.length; i++) {
+		if (!isTyping) {element.textContent = text; return;}
+        element.textContent += text[i];
+        await new Promise(resolve => setTimeout(resolve, speed));
+    }
+
+    isTyping = false;
+}
 		function update() {
 			if (keys.has('w')) character.y -= character.speed;
 			if (keys.has('s')) character.y += character.speed;
@@ -296,14 +429,18 @@ let dialogueIndex = 0;
 	);
 
 if (distance < 40) {
-	document.getElementById("dialogue-text").textContent =
-		npcLines[dialogueIndex];
-
-	dialogueIndex =
-		(dialogueIndex + 1) %
-		npcLines.length;
-
+	if (isTyping) {
+		isTyping = false; // Stop typing if already typing
+		return;
+	}
+	typeText(
+document.getElementById("dialogue-text"),
+npcLines[Math.floor(Math.random() * npcLines.length)]
+);
 	return;
+}
+			if (!gameState.current) {
+return;
 }
             if (gameState.scene == "mainMenu"){
                 if (gameState.current == "About Me"){
@@ -460,7 +597,7 @@ context.font = "14px system-ui";
 context.textAlign = "center";
 
 context.fillText(
-	"MiBot",
+	"MIBot",
 	npc.x,
 	npc.y - 25 + npcBob
 );
@@ -507,7 +644,7 @@ context.restore();
                 }
 
 			}
-			context.scale(scaleX, scaleY);
+			context.scale(scaleX, scaleY); 
 			context.fillStyle = '#38bdf8';
 			context.fillRect(-character.size / 2, -character.size / 2, character.size, character.size);
 			context.shadowBlur = 0;
@@ -517,7 +654,28 @@ context.restore();
 
 			context.restore();
 		}
+const audio = document.getElementById("bgm");
+const toggleButton = document.getElementById("music-toggle");
 
+toggleButton.addEventListener("click", () => {
+
+	if (audio.paused) {
+		audio.play();
+		toggleButton.textContent = "❚❚";
+	} else {
+		audio.pause();
+		toggleButton.textContent = "▶";
+	}
+
+});
+const volumeSlider =
+	document.getElementById("volume-slider");
+
+audio.volume = 0.5;
+
+volumeSlider.addEventListener("input", () => {
+	audio.volume = volumeSlider.value / 100;
+});
 		function gameLoop() {
 			update();
 			draw();

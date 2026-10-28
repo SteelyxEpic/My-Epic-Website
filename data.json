@@ -2,9 +2,14 @@
   "Projects": {
     "Dreamfall": {
       "category": "Game Development",
-      "description": "My first game jam entry, made in 4 days. A 2D sidescroller set in a dream.",
-      "technologies": [],
-      "highlights": [],
+      "description": "My first game jam entry, made for the Brackeys Game Jam 2026.1. A 2D sidescroller set in a dream.",
+      "technologies": ["Unity",
+"C#",
+"Krita"],
+      "highlights": [
+        "First original game jam idea",
+        "Made in 4 days"
+      ],
       "images": [],
       "links": [
         {
@@ -18,8 +23,13 @@
     "The Infectious Magma: Relit": {
       "category": "Game Development",
       "description": "A remake of the first game I ever made. A puzzle game where you solve the mystery of the infectious magma.",
-      "technologies": [],
-      "highlights": [],
+      "technologies": [
+        "Unity",
+        "C#",
+        "Krita"
+      ],
+      "highlights": [
+      ],
       "images": [],
       "links": [
         {
@@ -28,15 +38,19 @@
           "type": "game"
         }
       ],
-      "status": "Completed"
+      "status": "On hold"
     },
     "MediBook": {
       "category": "Software Development",
       "description": "My first Python application. A medical booking system that allows patients to book appointments and communicate with doctors.",
       "technologies": [
-        "Python"
+        "Python",
+        "Tkinter"
       ],
-      "highlights": [],
+      "highlights": [
+        "First Python application",
+        "Built with Tkinter"
+      ],
       "images": [],
       "links": [
         {
@@ -49,11 +63,17 @@
     },
     "The Most Epic Minigame Game Ever": {
       "category": "Game Development",
-      "description": "My first Godot game. A collection of entertaining minigames built for fun and experimentation.",
+      "description": "My first Godot game. Minigames Minigames Minigames! A collection of minigames that are all connected by a story. Oooooo!~",
       "technologies": [
-        "Godot"
+        "Godot",
+        "GDScript",
+        "Krita"
       ],
-      "highlights": [],
+      "highlights": [
+        "First original game made in Godot",
+        "First game shipped in stardance!",
+        "First game to give me more than 100 stardusts!"
+      ],
       "images": [],
       "links": [
         {
@@ -62,13 +82,17 @@
           "type": "game"
         }
       ],
-      "status": "Completed"
+      "status": "Completed?"
     },
     "Mimibot": {
       "category": "Robotics & Embedded Systems",
       "description": "A robot made for my friend that allows a Mimikyu plushie to appear as if it is floating and following him around.",
-      "technologies": [],
-      "highlights": [],
+      "technologies": ["Arduino",
+"ESP32","Bluetooth"],
+      "highlights": [
+        "First ever hardware project that I got commsissioned to make for a friend",
+        "First ever robot that I made for a friend"
+      ],
       "images": [
         {
           "src": "mimibot.jpeg",
@@ -118,7 +142,7 @@
     "UI/UX Design": {
       "description": "Interested in creating interactive interfaces that are clear, engaging, and easy to navigate. This portfolio is one example of my approach to interactive web design.",
       "items": [],
-      "projects": []
+      "projects": ["This website!"]
     },
     "Database Management": {
       "description": "Experience working with JSON data in web projects and using spreadsheets to organize and manipulate data.",
@@ -127,7 +151,7 @@
         "Microsoft Excel",
         "Google Sheets"
       ],
-      "projects": []
+      "projects": ["This website!", "MediBook"]
     }
   },
 
@@ -139,7 +163,9 @@
       ],
       "technologies": [
         "Python",
-        "Tkinter"
+        "Tkinter",
+        "Pillow",
+        "csv"
       ]
     },
     "Game Development": {
@@ -162,7 +188,12 @@
 	"Press E near items to interact with them!",
 	"Mimibot was built for his friend cuz his friend loves Mimikyu!~",
 	"He also made a game called Dreamfall for a game jam!~",
-    "Joshua is a student at the University of Swinburne Sawarak!",
-    "My name is MiBot!~"
+    "Joshua is a student at Swinburne University of Technology Sarawak Campus!",
+    "My name is MiBot!~",
+    "I'm a bot that was built by Joshua!~",
+    "How are you today?~",
+    "Sometimes I like to just float around and look at things! Like the stars!~",
+    "My name is an acronym for My Imaginary Bot!~",
+    "I wonder if I'll be able to see the stars from up here!~"
     ]
 }
